@@ -6,8 +6,8 @@
 # Exclude log folder
 log/
 
-
-
+/myenv
+/venv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

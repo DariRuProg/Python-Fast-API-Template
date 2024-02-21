@@ -46,7 +46,7 @@ app = FastAPI(
     description="Private APIs For YourName",
     version="1.0.0",
     servers=[
-        {"url": "https://api.url/", "description": "Production server"},
+        {"url": "https://hastemp-3137e0496156.herokuapp.com/", "description": "Production server"},
         {"url": "http://127.0.0.1:8000", "description": "Development server"}
     ],
     docs_url="/customdocs"

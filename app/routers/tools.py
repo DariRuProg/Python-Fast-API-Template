@@ -4,9 +4,12 @@ import logging
 import time
 
 # Third-party imports
-from fastapi import APIRouter,Request
+from fastapi import APIRouter,Request, FastAPI
 from pydantic import ValidationError
 from typing import List
+import requests
+from bs4 import BeautifulSoup
+import uvicorn
 
 from pydantic import BaseModel
 from ..models.blog_models import BlogTitles
@@ -18,54 +21,44 @@ from ..services import llm_api as llm, prompts as pr
 logger = logging.getLogger("AppLogger")
 router = APIRouter()
 
-
+def extract_h_titles(url: str) -> List[str]:
+    response = requests.get(url)
+    soup = BeautifulSoup(response.content, "html.parser")
+    htitles = [h.text for h in soup.find_all(["h1", "h2", "h3", "h4", "h5", "h6"])]
+    return htitles
 
 
 @router.get("/blog/generate-titles")
-async def generate_blog_titles(user_topic: str,request: Request):
-    start_time = time.time()
-    max_retries = 5
+async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
+    results = []
+    counter = 0
+    for page in range(0, n_pages):
+        url = f"https://www.google.com/search?q={keyword}&start={page * 10}"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+        }
+        response = requests.get(url, headers=headers)
+        soup = BeautifulSoup(response.content, "html.parser")
+        search = soup.find_all("div", class_="tF2Cxc")
 
-    for retry_count in range(max_retries):
-        try:
-            if await llm.is_text_flagged(user_topic):
-                return {
-                    "success": False,
-                    "message": "Input Not Allowed",
-                    "result": None
+        for h in search:
+            if counter == num_results:
+                break
+            counter += 1
+            title = h.find("h3").text
+            link = h.find("a")["href"]
+            rank = counter
+            htitles = extract_h_titles(link)
+
+            results.append(
+                {
+                    "title": title,
+                    "url": link,
+                    "rank": rank,
+                    "htitles": htitles,
                 }
-
-            prompt = pr.generate_blog_titles.format(topic=user_topic)
-            result : BlogTitles = await llm.generate_with_response_model(prompt,1,BlogTitles)
-          
-      
-            success_result = True
-            return {
-                "success": True,
-                "message": "Generated Titles Successfully",
-                "result": result.titles
-            }
-
-        except (json.JSONDecodeError, ValidationError) as e:
-            logger.warning(
-                f"Failed during JSON decoding or validation. Retry count: {retry_count + 1}."
             )
-            
-        except KeyError as e:
-            logger.warning(f"Missing key in JSON: {e}")
-            
-        except Exception as e:
-            logger.error(e)
-            continue
-        finally:
-            elapsed_time = time.time() - start_time
-            #do soemthing with the elapsed time
 
-    return {
-        "success": False,
-        "message": f"Failed to generate titles",
-        "result": None
-    }
-
+    return {"results": results}
 
 

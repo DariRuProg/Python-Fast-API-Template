@@ -37,19 +37,19 @@ API_KEY_NAME = config["API_KEY_HEADER_NAME"]
 API_KEY = config["API_KEY_PASSPHRASE"]
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
 
-WHITELISTED_PATHS = ["/customdocs", "/openapi.json", "/"]
+WHITELISTED_PATHS = ["/daridocs", "/openapi.json", "/"]
 
 
 
 app = FastAPI(
     title="API System",
-    description="Private APIs For YourName",
+    description="Private APIs For DariRu",
     version="1.0.0",
     servers=[
         {"url": "https://hastemp-3137e0496156.herokuapp.com/", "description": "Production server"},
         {"url": "http://127.0.0.1:8000", "description": "Development server"}
     ],
-    docs_url="/customdocs"
+    docs_url="/daridocs"
 )
 
 #app = FastAPI(docs_url="/customdocs")

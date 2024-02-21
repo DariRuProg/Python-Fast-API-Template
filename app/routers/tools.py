@@ -28,7 +28,7 @@ def extract_h_titles(url: str) -> List[str]:
     return htitles
 
 
-@router.get("/blog/generate-titles")
+@router.get("/seo/google_keyw_rank")
 async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
     results = []
     counter = 0

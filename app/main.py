@@ -52,7 +52,7 @@ app = FastAPI(
     docs_url="/daridocs"
 )
 
-#app = FastAPI(docs_url="/customdocs")
+#app = FastAPI(docs_url="/daridocs")
 
 
 limiter = Limiter(key_func=get_remote_address, default_limits=["1000/minute"])

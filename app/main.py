@@ -37,7 +37,7 @@ API_KEY_NAME = config["API_KEY_HEADER_NAME"]
 API_KEY = config["API_KEY_PASSPHRASE"]
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
 
-WHITELISTED_PATHS = ["/daridocs", "/openapi.json", "/"]
+WHITELISTED_PATHS = ["/customdocs", "/openapi.json", "/"]
 
 
 
@@ -49,10 +49,10 @@ app = FastAPI(
         {"url": "https://hastemp-3137e0496156.herokuapp.com/", "description": "Production server"},
         {"url": "http://127.0.0.1:8000", "description": "Development server"}
     ],
-    docs_url="/daridocs"
+    docs_url="/customdocs"
 )
 
-#app = FastAPI(docs_url="/daridocs")
+#app = FastAPI(docs_url="/customdocs")
 
 
 limiter = Limiter(key_func=get_remote_address, default_limits=["1000/minute"])

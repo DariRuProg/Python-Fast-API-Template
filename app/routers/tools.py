@@ -94,10 +94,16 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
                     }
                 )
 
-        if not results:
-            raise HTTPException(status_code=404, detail="No results found")
+"""         if not results:
+            raise HTTPException(status_code=404, detail="No results found") """
 
-        return {"success": True, "message": "Generated Titles Successfully", "result": results}
+        return {"success": True, 
+                "message": "Generated Titles Successfully", 
+                "result": results
+                }
 
-    except Exception as e:
-        return {"success": False, "message": str(e), "result": []}
+"""     except Exception as e:
+        return {"success": False,
+                "message": str(e),
+                "result": []
+                } """

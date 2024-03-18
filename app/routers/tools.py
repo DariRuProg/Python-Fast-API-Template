@@ -105,7 +105,7 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
                 }
 
     except HTTPException as e:
-    return {"success": False,
-            "message": str(e.detail),
-            "result": []
-            }
+        return {"success": False,
+                "message": str(e.detail),
+                "result": []
+                }

@@ -5,6 +5,8 @@ import time
 
 # Third-party imports
 from fastapi import APIRouter,Request, FastAPI
+from fastapi import HTTPException
+
 from pydantic import ValidationError
 from typing import List
 import requests
@@ -102,8 +104,8 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
                 "result": results
                 }
 
-    except Exception as e:
-        return {"success": False,
-                "message": str(e),
-                "result": []
-                }
+    except HTTPException as e:
+    return {"success": False,
+            "message": str(e.detail),
+            "result": []
+            }

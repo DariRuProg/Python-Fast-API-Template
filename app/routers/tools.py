@@ -23,12 +23,6 @@ from ..services import llm_api as llm, prompts as pr
 logger = logging.getLogger("AppLogger")
 router = APIRouter()
 
-@router.get("/seo/google_keyw_rank")
-async def root():
-    return "healthy"
-
-
-"""
 def extract_h_titles(url: str) -> List[str]:
     response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -73,4 +67,4 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
         else:
             return {"success": True, "message": "Generated Titles Successfully", "result": results}
     except Exception as e:
-        return {"success": False, "message": f"An error occurred: {str(e)}"} """
+        return {"success": False, "message": f"An error occurred: {str(e)}"}

@@ -67,7 +67,7 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
 @router.get("/seo/google_keyw_rank")
 async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
     try:
-        results = []
+        resultati = []
         counter = 0
         for page in range(0, n_pages):
             url = f"https://www.google.com/search?q={keyword}&start={page * 10}"
@@ -87,7 +87,7 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
                 rank = counter
                 htitles = extract_h_titles(link)
 
-                results.append(
+                resultati.append(
                     {
                         "title": title,
                         "url": link,
@@ -96,16 +96,17 @@ async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
                     }
                 )
 
-        if not results:
-            raise HTTPException(status_code=404, detail="No results found")
+      """  if not results:
+            raise HTTPException(status_code=404, detail="No results found") """
 
         return {"success": True, 
                 "message": "Generated Titles Successfully", 
-                "result": results
+                "result": resultati
                 }
-
+"""
     except HTTPException as e:
         return {"success": False,
                 "message": str(e.detail),
                 "result": []
                 }
+"""

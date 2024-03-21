@@ -46,7 +46,8 @@ app = FastAPI(
     description="Private APIs For DariRu",
     version="1.0.0",
     servers=[
-        {"url": "https://hastemp-3137e0496156.herokuapp.com/", "description": "Production server"},
+        {"url": "https://hastemp-3137e0496156.herokuapp.com/", "description": "Heroku server"},
+        {"url": "https://python-fast-api-template.onrender.com/", "description": "Render server"},
         {"url": "http://127.0.0.1:8000", "description": "Development server"}
     ],
     docs_url="/customdocs"

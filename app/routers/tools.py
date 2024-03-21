@@ -31,8 +31,10 @@ def extract_h_titles(url: str) -> List[str]:
 
 
 @router.get("/seo/google_keyw_rank")
-async def root(keyword: str, num_results: int = 10, n_pages: int = 1):
+async def root(keyword: str):
     try:
+        n_pages = 1
+        num_results = 10
         results = []
         counter = 0
         for page in range(0, n_pages):
